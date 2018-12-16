@@ -1,0 +1,31 @@
+\frametitle{So what if I violate the contract?}
+
+\textcolor{red}{By default, failing contracts mean program termination}
+\begin{itemize}
+
+
+\item However, there are \textbf{contract violation handlers}
+
+\item As the name implies, this is the function that gets called when a contract is violated
+
+\item There is one contract violation handler per \textit{translation unit}
+
+Must have specific signature:
+
+\lstset{language=C++,
+		xleftmargin=2em,
+		frame=single,
+		framexleftmargin=2em,
+		numberfirstline=true,
+		breakatwhitespace=true,
+                basicstyle=\fontsize{8}{9}\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\begin{lstlisting}
+    void(const std::contract_violation &);
+\end{lstlisting}
+
+\end{itemize}
