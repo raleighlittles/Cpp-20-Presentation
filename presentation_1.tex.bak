@@ -726,6 +726,7 @@ Herb Sutter (chair of the C++ Committee) has personally said he thinks \textit{"
 \begin{frame}
 \frametitle{Any sci-fi fans out there?}
 \begin{itemize}
+\setlength\itemsep{2em}
 \item C++20 adds a three-way comparison operator (\texttt{<=>})
 \item Sometimes people call this the spaceship operator
 \item Given two values $A$ and $B$, this operator checks each of the following
@@ -741,6 +742,155 @@ Herb Sutter (chair of the C++ Committee) has personally said he thinks \textit{"
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+\frametitle{Atomic shared pointers}
+
+\begin{itemize}
+\item Nothing to do with chemistry
+
+\item "Aren't smart pointers already thread-safe?"
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{The answer is: kind of?}
+Here's how smart pointers are implemented
+
+\vspace{1em}
+\begin{center}
+\includegraphics[scale=1]{smart_pointers.png}
+\end{center}
+\begin{itemize}
+\item The control block is thread-safe 
+\item Access to the object \emph{isn't}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Wanna race?}
+
+\lstset{language=C++,
+		numbers=left,
+		stepnumber=1,
+		firstnumber=1,
+		xleftmargin=2em,
+		frame=single,
+		framexleftmargin=2em,
+		numberfirstline=true,
+		breakatwhitespace=true,
+                basicstyle=\fontsize{8}{9}\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\begin{lstlisting}
+    std::shared_ptr<int> pointer  = std::make_shared<int>(2011);
+    
+    for (auto i = 0; i < 10; i++)
+    {
+    	std::thread([&pointer]
+    	{
+    		pointer = std::make_shared<int>(2014);
+    	}).detach();
+    
+    }
+\end{lstlisting}
+
+I can't take credit for this example, but it illustrates the point...
+
+\end{frame}
+
+\begin{frame}
+\frametitle{To be fair...}
+\begin{itemize}
+\item There technically are atomic operations you can do on shared pointers
+\item \texttt{std::atomic\_is\_lock\_free}, \texttt{std::atomic\_exchange}, a handful of others
+\item Like with many things in C++, the right usage of these takes discipline
+\item ... which make it error-prone
+\item Atomic pointers are going to solve this
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Don't believe me?}
+
+\begin{multicols}{2}
+\lstset{language=C++,
+		numbers=left,
+		stepnumber=1,
+		firstnumber=1,
+		xleftmargin=2em,
+		frame=single,
+		framexleftmargin=2.5em,
+		numberfirstline=true,
+		breaklines=true,
+                basicstyle=\fontsize{6}{7}\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\begin{lstlisting}
+ template<typename Type> class concurrent_stack {
+    struct Node { Type t; shared_ptr<Node> next; };
+    atomic_shared_ptr<Node> head;
+    concurrent_stack( concurrent_stack &) =delete;
+    void operator=(concurrent_stack&) =delete;
+    
+    public:
+    concurrent_stack() =default;
+    ~concurrent_stack() =default;
+    class reference {
+        shared_ptr<Node> p;
+    public:
+       reference(shared_ptr<Node> p_) : p{p_} { }
+       Type& operator* () { return p->t; }
+       Type* operator->() { return &p->t; }
+    };
+    
+    auto find(Type t) const {
+        auto p = head.load();  
+        while( p && p->t != t )
+            p = p->next;
+        return reference(move(p));
+    }
+    auto front() const {
+       return reference(head); 
+    }
+    void push_front(Type t) {
+      auto p = make_shared<Node>();
+      p->t = t;
+      p->next = head;         
+      while( !head.compare_exchange_weak(p->next, p) ){ }
+    }
+    void pop_front() {
+       auto p = head.load();
+       while( p && !head.compare_exchange_weak(p, p->next) ){ }
+    }
+};
+
+\end{lstlisting}
+\columnbreak
+\end{multicols}
+\end{frame}
+
+\begin{frame}
+\frametitle{Told you}
+
+That last slide:
+
+\begin{itemize}
+\item was a 
+\textbf{40-line} implementation of a \emph{thread-safe}, (singly) linked list
+\item The word "atomic" only showed up once
+\item You could have written thread-safe code without knowing what a thread was
+\item In C++17, you'd have had to use the atomic member functions every time you touched the head pointer
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}
 \Huge{\centerline{The End}}

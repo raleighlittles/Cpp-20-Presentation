@@ -1,31 +1,60 @@
-\frametitle{So what if I violate the contract?}
+\frametitle{Don't believe me?}
 
-\textcolor{red}{By default, failing contracts mean program termination}
-\begin{itemize}
-
-
-\item However, there are \textbf{contract violation handlers}
-
-\item As the name implies, this is the function that gets called when a contract is violated
-
-\item There is one contract violation handler per \textit{translation unit}
-
-Must have specific signature:
-
+\begin{multicols}{2}
 \lstset{language=C++,
+		numbers=left,
+		stepnumber=1,
+		firstnumber=1,
 		xleftmargin=2em,
 		frame=single,
-		framexleftmargin=2em,
+		framexleftmargin=2.5em,
 		numberfirstline=true,
-		breakatwhitespace=true,
-                basicstyle=\fontsize{8}{9}\ttfamily,
+		breaklines=true,
+                basicstyle=\fontsize{6}{7}\ttfamily,
                 keywordstyle=\color{blue}\ttfamily,
                 stringstyle=\color{red}\ttfamily,
                 commentstyle=\color{green}\ttfamily,
                 morecomment=[l][\color{magenta}]{\#}
 }
 \begin{lstlisting}
-    void(const std::contract_violation &);
-\end{lstlisting}
+ template<typename Type> class concurrent_stack {
+    struct Node { Type t; shared_ptr<Node> next; };
+    atomic_shared_ptr<Node> head;
+    concurrent_stack( concurrent_stack &) =delete;
+    void operator=(concurrent_stack&) =delete;
 
-\end{itemize}
+    public:
+    concurrent_stack() =default;
+    ~concurrent_stack() =default;
+    class reference {
+        shared_ptr<Node> p;
+    public:
+       reference(shared_ptr<Node> p_) : p{p_} { }
+       Type& operator* () { return p->t; }
+       Type* operator->() { return &p->t; }
+    };
+
+    auto find(Type t) const {
+        auto p = head.load();
+        while( p && p->t != t )
+            p = p->next;
+        return reference(move(p));
+    }
+    auto front() const {
+       return reference(head);
+    }
+    void push_front(Type t) {
+      auto p = make_shared<Node>();
+      p->t = t;
+      p->next = head;
+      while( !head.compare_exchange_weak(p->next, p) ){ }
+    }
+    void pop_front() {
+       auto p = head.load();
+       while( p && !head.compare_exchange_weak(p, p->next) ){ }
+    }
+};
+
+\end{lstlisting}
+\columnbreak
+\end{multicols}
