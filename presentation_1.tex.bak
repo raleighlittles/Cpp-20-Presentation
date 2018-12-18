@@ -91,7 +91,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Short title]{Introduction to C++20} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Intro to C++20]{Introduction to C++20} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{Raleigh Littles} % Your name
 \institute[Karl Storz Imaging] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -153,11 +153,11 @@ Voted in: \underline{Concepts}, designated initializers, new lambda capture synt
 \end{block}
 
 \begin{block}{Meeting \#2: November 2017}
-Voted in: variable initialization on ranged-for statements, bit-casting object representations, three-way comparison operator, atomic shared pointers, ...
+Voted in: variable initialization on ranged-for statements, bit-casting object representations, three-way comparison operator, \underline{atomic shared pointers}, ...
 \end{block}
 
 \begin{block}{Meeting \#3: June 2018}
-Voted in: Contracts, feature test macros, \underline{Ranges}, explicit booleans, \texttt{constexpr} virtual functions
+Voted in: \underline{Contracts}, feature test macros, \underline{Ranges}, explicit booleans, \texttt{constexpr} virtual functions
 \end{block}
 
 \begin{block}{Meeting \#4: November 2018}
@@ -746,8 +746,10 @@ Herb Sutter (chair of the C++ Committee) has personally said he thinks \textit{"
 \frametitle{Atomic shared pointers}
 
 \begin{itemize}
+\setlength\itemsep{2em}
 \item Nothing to do with chemistry
 
+\item .. Despite being the "A" in \textit{ACID}
 \item "Aren't smart pointers already thread-safe?"
 
 \end{itemize}
@@ -806,6 +808,7 @@ I can't take credit for this example, but it illustrates the point...
 \begin{frame}
 \frametitle{To be fair...}
 \begin{itemize}
+\setlength\itemsep{2em}
 \item There technically are atomic operations you can do on shared pointers
 \item \texttt{std::atomic\_is\_lock\_free}, \texttt{std::atomic\_exchange}, a handful of others
 \item Like with many things in C++, the right usage of these takes discipline
@@ -883,6 +886,7 @@ I can't take credit for this example, but it illustrates the point...
 That last slide:
 
 \begin{itemize}
+\setlength\itemsep{2em}
 \item was a 
 \textbf{40-line} implementation of a \emph{thread-safe}, (singly) linked list
 \item The word "atomic" only showed up once

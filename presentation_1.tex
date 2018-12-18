@@ -153,7 +153,7 @@ Voted in: \underline{Concepts}, designated initializers, new lambda capture synt
 \end{block}
 
 \begin{block}{Meeting \#2: November 2017}
-Voted in: variable initialization on ranged-for statements, bit-casting object representations, three-way comparison operator, \underline{atomic shared pointers}, ...
+Voted in: variable initialization on ranged-for statements, bit-casting object representations, \underline{three-way comparison operator}, \underline{atomic shared pointers}, ...
 \end{block}
 
 \begin{block}{Meeting \#3: June 2018}
@@ -723,24 +723,7 @@ Herb Sutter (chair of the C++ Committee) has personally said he thinks \textit{"
 
 %----------------------------------------------------------------------------------------
 
-\begin{frame}
-\frametitle{Any sci-fi fans out there?}
-\begin{itemize}
-\setlength\itemsep{2em}
-\item C++20 adds a three-way comparison operator (\texttt{<=>})
-\item Sometimes people call this the spaceship operator
-\item Given two values $A$ and $B$, this operator checks each of the following
-\begin{enumerate}
-\item Is $A < B$ ?
-\item Is $A = B$ ?
-\item Is $A > B$ ?
-\end{enumerate}
-
-\item Perl, Haskell and Ruby, have this
-
-\item This is an extension of C's \texttt{strcmp()}
-\end{itemize}
-\end{frame}
+\section{Atomic shared pointers}
 
 \begin{frame}
 \frametitle{Atomic shared pointers}
@@ -894,6 +877,27 @@ That last slide:
 \item In C++17, you'd have had to use the atomic member functions every time you touched the head pointer
 \end{itemize}
 
+\end{frame}
+
+\section{Miscellaneous}
+
+\begin{frame}
+\frametitle{Any sci-fi fans out there?}
+\begin{itemize}
+\setlength\itemsep{2em}
+\item C++20 adds a three-way comparison operator (\texttt{<=>})
+\item Sometimes people call this the spaceship operator
+\item Given two values $A$ and $B$, this operator checks each of the following
+\begin{enumerate}
+\item Is $A < B$ ?
+\item Is $A = B$ ?
+\item Is $A > B$ ?
+\end{enumerate}
+
+\item Perl, Haskell and Ruby, have this
+
+\item This is an extension of C's \texttt{strcmp()}
+\end{itemize}
 \end{frame}
 
 \begin{frame}
