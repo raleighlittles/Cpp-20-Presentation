@@ -124,9 +124,13 @@
 %\section{Subsection Example} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
 
 \begin{frame}
-\frametitle{Current timeline}
+\frametitle{Current timeline of modern C++}
 
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{timeline}
+
+\vspace{1em}
+
+From: https://isocpp.org/std/status
 
 \end{frame}
 
@@ -153,7 +157,7 @@ Voted in: \underline{Concepts}, designated initializers, new lambda capture synt
 \end{block}
 
 \begin{block}{Meeting \#2: November 2017}
-Voted in: variable initialization on ranged-for statements, bit-casting object representations, three-way comparison operator, \underline{atomic shared pointers}, ...
+Voted in: variable initialization on ranged-for statements, bit-casting object representations, \underline{three-way comparison operator}, \underline{atomic shared pointers}, ...
 \end{block}
 
 \begin{block}{Meeting \#3: June 2018}
@@ -723,24 +727,7 @@ Herb Sutter (chair of the C++ Committee) has personally said he thinks \textit{"
 
 %----------------------------------------------------------------------------------------
 
-\begin{frame}
-\frametitle{Any sci-fi fans out there?}
-\begin{itemize}
-\setlength\itemsep{2em}
-\item C++20 adds a three-way comparison operator (\texttt{<=>})
-\item Sometimes people call this the spaceship operator
-\item Given two values $A$ and $B$, this operator checks each of the following
-\begin{enumerate}
-\item Is $A < B$ ?
-\item Is $A = B$ ?
-\item Is $A > B$ ?
-\end{enumerate}
-
-\item Perl, Haskell and Ruby, have this
-
-\item This is an extension of C's \texttt{strcmp()}
-\end{itemize}
-\end{frame}
+\section{Atomic shared pointers}
 
 \begin{frame}
 \frametitle{Atomic shared pointers}
@@ -894,6 +881,51 @@ That last slide:
 \item In C++17, you'd have had to use the atomic member functions every time you touched the head pointer
 \end{itemize}
 
+\end{frame}
+
+\section{Miscellaneous}
+
+\begin{frame}
+\frametitle{Any sci-fi fans out there?}
+\begin{itemize}
+\setlength\itemsep{2em}
+\item C++20 adds a three-way comparison operator (\texttt{<=>})
+\item Sometimes people call this the spaceship operator
+\item Given two values $A$ and $B$, this operator checks each of the following
+\begin{enumerate}
+\item Is $A < B$ ?
+\item Is $A = B$ ?
+\item Is $A > B$ ?
+\end{enumerate}
+
+\item Perl, Haskell and Ruby, have this
+
+\item This is an extension of C's \texttt{strcmp()}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Wrapping up..}
+
+\begin{itemize}
+\item "Concepts" : essentially type-checking for templates
+\item Ranges: Big step up from existing iterators approached introduced in C++11
+\item Contracts: Basically keeps your code in check; depending on how this is fully implemented it could end up being a huge pain or very convenient
+\item Atomic smart pointers: Thread safety meets smart pointers, you may not use this often but when you do you'll be thankful
+\item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion / going forward}
+\begin{itemize}
+\setlength\itemsep{1.5em}
+\item Overall I personally think the new additions will be pretty useful, others may see it as bloat
+\item As a beginner, I appreciate that these changes make the language a bit more noob-friendly
+\item C++20 might not as game-changing as the C++11 standard, but its still fairly significant
+\item Now is probably a good time to start thinking about how we can port our codebase over to C++20 when it arrives ?
+\item Round 2 of presentation, December 2019 -- discussing what features have been deprecated/removed?
+\end{itemize}
 \end{frame}
 
 \begin{frame}

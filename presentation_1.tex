@@ -124,9 +124,13 @@
 %\section{Subsection Example} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
 
 \begin{frame}
-\frametitle{Current timeline}
+\frametitle{Current timeline of modern C++}
 
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{timeline}
+
+\vspace{1em}
+
+From: https://isocpp.org/std/status
 
 \end{frame}
 
@@ -649,14 +653,14 @@ You {\Large{cannot}} change the build level in source code
 \frametitle{So what if I violate the contract?}
 
 \textcolor{red}{By default, failing contracts mean program termination}
+\vspace{1em}
 \begin{itemize}
-
-
+\setlength\itemsep{1.5em}
 \item However, there are \textbf{contract violation handlers}
 
 \item As the name implies, this is the function that gets called when a contract is violated
 
-\item There is one contract violation handler per \textit{translation unit}
+\item There is one contract violation handler per \textit{translation unit} (output of pre-processor)
 
 Must have specific signature:
 
@@ -897,6 +901,31 @@ That last slide:
 \item Perl, Haskell and Ruby, have this
 
 \item This is an extension of C's \texttt{strcmp()}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Wrapping up..}
+
+\begin{itemize}
+\setlength\itemsep{1.5em}
+\item "Concepts" : essentially type-checking for templates
+\item Ranges: Big step up from existing iterators approached introduced in C++11
+\item Contracts: Basically keeps your code in check; depending on how this is fully implemented it could end up being a huge pain or very convenient
+\item Atomic smart pointers: Thread safety meets smart pointers, you may not use this often but when you do you'll be thankful
+\item Threeway-comparison operator: \texttt{strcmp()} all the things
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion / going forward}
+\begin{itemize}
+\setlength\itemsep{1.5em}
+\item Overall I personally think the new additions will be pretty useful, others may see it as bloat
+\item As a beginner, I appreciate that these changes make the language a bit more noob-friendly
+\item C++20 might not as game-changing as the C++11 standard, but its still fairly significant
+\item Now is probably a good time to start thinking about how we can port our codebase over to C++20 when it arrives ?
+\item Round 2 of presentation, December 2019 -- discussing what features have been deprecated/removed?
 \end{itemize}
 \end{frame}
 
